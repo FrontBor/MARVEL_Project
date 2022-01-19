@@ -12,8 +12,8 @@ class App extends Component {
         selectedChar: null
     }
 
-    onCharSelected = (id) => {
-        this.setState({
+    onCharSelected = (id) => {    // из этого компонента приходит и устанавливается в стейт,
+        this.setState({           // и передаётся в компонент CharInfo 
             selectedChar: id
         })
 
@@ -26,7 +26,7 @@ class App extends Component {
             <main>
                 <RandomChar/>
                 <div className="char__content">
-                    <CharList onCharSelected={this.onCharSelected}/>
+                    <CharList onCharSelected={this.onCharSelected}/>   
                     <CharInfo charId={this.state.selectedChar}/>
                 </div>
                 <img className="bg-decoration" src={decoration} alt="vision"/>
