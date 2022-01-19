@@ -6,7 +6,7 @@ import CharInfo from "../charInfo/CharInfo";
 
 import decoration from '../../resources/img/vision.png';
 
-class App extends Comment {
+class App extends Component {
 
     state = {
         selectedChar: null
