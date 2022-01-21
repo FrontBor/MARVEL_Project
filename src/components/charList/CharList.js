@@ -15,6 +15,9 @@ class CharList extends Component {
     marvelService = new MarvelService();
 
     componentDidMount() {
+
+        
+
         this.marvelService.getAllCharacters()
             .then(this.onCharListLoaded)
             .catch(this.onError)
@@ -25,6 +28,8 @@ class CharList extends Component {
             charList,
             loading: false
         })
+
+        
     }
 
     onError = () => {
