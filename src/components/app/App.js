@@ -23,9 +23,7 @@ class App extends Component {
    render () {
     return (
         <div className="app">
-            <ErrorBoundery>
                 <AppHeader/>
-            </ErrorBoundery>
             <main>
                 <ErrorBoundery>
                     <RandomChar/>
