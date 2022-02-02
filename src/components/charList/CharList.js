@@ -1,8 +1,10 @@
 import {Component} from 'react';
+import PropTypes from 'prop-types';
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessege/ErrorMessage';
 import MarvelService from '../../services/MarvelServices';
 import './charList.scss';
+
 
 class CharList extends Component {
 
@@ -31,7 +33,7 @@ class CharList extends Component {
 
     onCharListLoading = () => {
         this.setState({
-            newItemLoading: this
+            newItemLoading: true
         })
     }
 
@@ -111,6 +113,10 @@ class CharList extends Component {
             </div>
         )
     }
+}
+
+CharList.propTypes = {                  // проверка типов 
+    onCharSelected: PropTypes.func
 }
 
 export default CharList;
