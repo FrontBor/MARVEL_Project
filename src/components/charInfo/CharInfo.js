@@ -1,6 +1,6 @@
 import { Component } from 'react';
+import PropTypes from 'prop-types';
 import MarvelService from '../../services/MarvelServices';
-
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessege/ErrorMessage';
 import Skeleton from '../skeleton/Skeleton';
@@ -18,7 +18,7 @@ class CharInfo extends Component {
 
     marvelService = new MarvelService();
 
-    componentDidMount() {
+    componentDidMount() {     // хук монтирования 
         this.updateChar();
     }
 
@@ -43,6 +43,8 @@ class CharInfo extends Component {
                 .getCharacter(charId)
                 .then(this.onCharLoaded)
                 .catch(this.onError);
+
+                // this.foo.bar = 0;      // намеренная ошибка для отловки errorBoundery
     }
 
     onCharLoaded = (char) => {   // конечный результат загрузки
@@ -137,6 +139,10 @@ const View = ({char}) => {
                 </ul>
         </>
     )
+}
+
+CharInfo.propTypes = {
+    charId: PropTypes.number
 }
 
 export default CharInfo;

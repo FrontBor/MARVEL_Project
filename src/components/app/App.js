@@ -4,6 +4,7 @@ import RandomChar from "../randomChar/RandomChar";
 import CharList from "../charList/CharList";
 import CharInfo from "../charInfo/CharInfo";
 import ErrorBoundery from "../errorBoundery/ErrorBoundery";
+
 import decoration from '../../resources/img/vision.png';
 
 class App extends Component {
@@ -22,7 +23,7 @@ class App extends Component {
    render () {
     return (
         <div className="app">
-            <AppHeader/>
+                <AppHeader/>
             <main>
                 <ErrorBoundery>
                      <RandomChar/>

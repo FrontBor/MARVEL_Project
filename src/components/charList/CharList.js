@@ -1,20 +1,20 @@
-import PropTypes from 'prop-types'
-import React from 'react';
+import {Component} from 'react';
+import PropTypes from 'prop-types';
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessege/ErrorMessage';
 import MarvelService from '../../services/MarvelServices';
 import './charList.scss';
 
-class CharList extends React.Component {
-    myRef = React.createRef()
 
+class CharList extends Component {
 
     state = {
         charList: [],
         loading: true,
         error: false,
         newItemLoading: false,
-        offset: 210
+        offset: 210,
+        charEnded: false
         
     }
     
@@ -24,22 +24,11 @@ class CharList extends React.Component {
         this.onRequest();
     }
 
-    focusItems = elem => {
-        if (elem) {
-            return this.myRef.current.focus();
-            
-        }
-        console.log(elem)
-    }
-
-    
     onRequest = (offset) => {
         this.onCharListLoading();
         this.marvelService.getAllCharacters(offset)
             .then(this.onCharListLoaded)
             .catch(this.onError)
-
-            
     }
 
     onCharListLoading = () => {
@@ -49,12 +38,21 @@ class CharList extends React.Component {
     }
 
     onCharListLoaded = (newCharList) => {
-        this.setState(({offset, charList}) => ({
+       
+        let ended = false;
+        if(newCharList.langth < 9) {
+            ended = true
+        }
+
+       this.setState(({offset, charList}) => ({
             charList: [...charList, ...newCharList],
             loading: false,
             newItemLoading: false,
-            offset: offset + 9
-        }))
+            offset: offset + 9,
+            charEnded: ended
+            
+            
+       }))
     }
 
     onError = () => {
@@ -91,8 +89,7 @@ class CharList extends React.Component {
             if (item.thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
                 imgStyle = {'objectFit' : 'contain'};
             }
-
-        
+            
             return (
                 <li 
                     className="char__item"
@@ -100,15 +97,10 @@ class CharList extends React.Component {
                     ref={this.setRef}
                     key={item.id}
                     onClick={() => {
-                    this.props.onCharSelected(item.id)
-                    this.focusOnItem(i)
+                        this.props.onCharSelected(item.id);
+                        this.focusOnItem(i);
                     }}
-                        onKeyPress={(e) => {
-                        if (e.key === ' ' || e.key === "Enter") {
-                            this.props.onCharSelected(item.id);
-                            this.focusOnItem(i);
-                        }
-                    }}>
+                    >
                         <img src={item.thumbnail} alt={item.name} style={imgStyle}/>
                         <div className="char__name">{item.name}</div>
                 </li>
@@ -124,7 +116,7 @@ class CharList extends React.Component {
 
     render() {
 
-        const {charList, loading, error, newItemLoading, offset} = this.state;
+        const {charList, loading, error, offset, newItemLoading, charEnded} = this.state;
         
         const items = this.renderItems(charList);
 
@@ -137,10 +129,10 @@ class CharList extends React.Component {
                 {errorMessage}
                 {spinner}
                 {content}
-                <button 
-                    className="button button__main button__long"
-                    disabled={newItemLoading}
-                    onClick={() => this.onRequest(offset)}>
+                <button className="button button__main button__long"
+                        disabled={newItemLoading}
+                        style={{'display': charEnded ? 'none' : 'block'}}
+                        onClick={() => this.onRequest(offset)}>
                     <div className="inner">load more</div>
                 </button>
             </div>
@@ -149,7 +141,7 @@ class CharList extends React.Component {
 }
 
 CharList.propTypes = {                  // проверка типов 
-    onCharSelected: PropTypes.func.isRequired
+    onCharSelected: PropTypes.func
 }
 
 export default CharList;
